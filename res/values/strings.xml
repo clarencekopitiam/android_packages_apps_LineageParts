@@ -522,6 +522,11 @@
     <string name="network_traffic_show_units_summary">Whether to show traffic measurement units in the statusbar</string>
     <string name="network_traffic_disabled_clock">Network traffic disabled due to clock position</string>
 
+    <!-- Status bar - QS Footer -->
+    <string name="status_bar_qs_footer_category">QS Footer</string>
+    <string name="qs_footer_datausage_title">Data usage</string>
+    <string name="qs_footer_datausage_summary">Display data usage summary in quick settings footer</string>
+
     <!-- Protected apps -->
     <string name="protected_apps_manager_title">Protected apps</string>
     <string name="protected_apps_manager_summary">Manage which apps are hidden behind a secure lock</string>

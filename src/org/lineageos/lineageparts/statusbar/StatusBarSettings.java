@@ -5,7 +5,10 @@
  */
 package org.lineageos.lineageparts.statusbar;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -175,4 +178,11 @@ public class StatusBarSettings extends SettingsPreferenceFragment
                 LineageSettings.Secure.NETWORK_TRAFFIC_POSITION, /* Center */ 1);
         return mode != 0 && position == 1 ? 1 : 0;
     }
+
+    public static void reset(Context mContext) {
+        ContentResolver resolver = mContext.getContentResolver();
+        Settings.System.putIntForUser(resolver,
+                Settings.System.QS_SHOW_DATA_USAGE, 0, UserHandle.USER_CURRENT);
+    }
+
 }

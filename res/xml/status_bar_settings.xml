@@ -112,4 +112,14 @@
             android:defaultValue="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/status_bar_qs_footer_category">
+
+        <lineageos.preference.SystemSettingSwitchPreference
+            android:key="qs_show_data_usage"
+            android:title="@string/qs_footer_datausage_title"
+            android:summary="@string/qs_footer_datausage_summary" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
