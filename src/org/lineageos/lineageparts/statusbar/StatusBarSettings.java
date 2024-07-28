@@ -1,12 +1,14 @@
 /*
  * SPDX-FileCopyrightText: 2014-2015 The CyanogenMod Project
- * SPDX-FileCopyrightText: 2017-2023 The LineageOS Project
+ * SPDX-FileCopyrightText: 2017-2024 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 package org.lineageos.lineageparts.statusbar;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -16,6 +18,8 @@ import android.view.View;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
+
+import com.android.settingslib.fuelgauge.BatteryUtils;
 
 import org.lineageos.lineageparts.R;
 import org.lineageos.lineageparts.SettingsPreferenceFragment;
@@ -54,6 +58,8 @@ public class StatusBarSettings extends SettingsPreferenceFragment
     private PreferenceCategory mStatusBarBatteryCategory;
     private PreferenceCategory mStatusBarClockCategory;
 
+    private boolean mBatteryPresent;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,10 @@ public class StatusBarSettings extends SettingsPreferenceFragment
         statusBarBattery.setOnPreferenceChangeListener(this);
         enableStatusBarBatteryDependents(statusBarBattery.getIntValue(2));
 
+        Intent intent = BatteryUtils.getBatteryIntent(getContext());
+        if (intent != null) {
+            mBatteryPresent = intent.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true);
+        }
         mStatusBarBatteryCategory = getPreferenceScreen().findPreference(CATEGORY_BATTERY);
 
         mQuickPulldown = findPreference(STATUS_BAR_QUICK_QS_PULLDOWN);
@@ -91,7 +101,8 @@ public class StatusBarSettings extends SettingsPreferenceFragment
             getPreferenceScreen().addPreference(mStatusBarClockCategory);
         }
 
-        if (TextUtils.delimitedStringContains(curIconBlacklist, ',', "battery")) {
+        if (!mBatteryPresent ||
+                TextUtils.delimitedStringContains(curIconBlacklist, ',', "battery")) {
             getPreferenceScreen().removePreference(mStatusBarBatteryCategory);
         } else {
             getPreferenceScreen().addPreference(mStatusBarBatteryCategory);
